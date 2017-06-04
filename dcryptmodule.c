@@ -1,8 +1,8 @@
 #include <Python.h>
 
-#include "qubit.h"
+#include "dcrypt.h"
 
-static PyObject *qubit_getpowhash(PyObject *self, PyObject *args)
+static PyObject *dcrypt_getpowhash(PyObject *self, PyObject *args)
 {
     char *output;
     PyObject *value;
@@ -17,9 +17,9 @@ static PyObject *qubit_getpowhash(PyObject *self, PyObject *args)
     output = PyMem_Malloc(32);
 
 #if PY_MAJOR_VERSION >= 3
-    qubit_hash((char *)PyBytes_AsString((PyObject*) input), output);
+    dcrypt_hash((char *)PyBytes_AsString((PyObject*) input), output);
 #else
-    qubit_hash((char *)PyString_AsString((PyObject*) input), output);
+    dcrypt_hash((char *)PyString_AsString((PyObject*) input), output);
 #endif
     Py_DECREF(input);
 #if PY_MAJOR_VERSION >= 3
@@ -31,27 +31,27 @@ static PyObject *qubit_getpowhash(PyObject *self, PyObject *args)
     return value;
 }
 
-static PyMethodDef qubitMethods[] = {
-    { "getPoWHash", qubit_getpowhash, METH_VARARGS, "Returns the proof of work hash using qubit hash" },
+static PyMethodDef dcryptMethods[] = {
+    { "getPoWHash", dcrypt_getpowhash, METH_VARARGS, "Returns the proof of work hash using dcrypt" },
     { NULL, NULL, 0, NULL }
 };
 
 #if PY_MAJOR_VERSION >= 3
-static struct PyModuleDef qubitModule = {
+static struct PyModuleDef dcryptModule = {
     PyModuleDef_HEAD_INIT,
-    "qubit_hash",
+    "dcrypt_hash",
     "...",
     -1,
-    qubitMethods
+    dcryptMethods
 };
 
-PyMODINIT_FUNC PyInit_qubit_hash(void) {
-    return PyModule_Create(&qubitModule);
+PyMODINIT_FUNC PyInit_dcrypt_hash(void) {
+    return PyModule_Create(&dcryptModule);
 }
 
 #else
 
-PyMODINIT_FUNC initqubit_hash(void) {
-    (void) Py_InitModule("qubit_hash", qubitMethods);
+PyMODINIT_FUNC initdcrypt_hash(void) {
+    (void) Py_InitModule("dcrypt_hash", dcryptMethods);
 }
 #endif

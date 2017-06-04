@@ -1,18 +1,13 @@
 from distutils.core import setup, Extension
 
-qubit_hash_module = Extension(
-    'qubit_hash',
-    sources = [
-        'qubitmodule.c',
-        'qubit.c',
-        'sha3/cubehash.c',
-        'sha3/echo.c',
-        'sha3/luffa.c',
-        'sha3/simd.c',
-        'sha3/shavite.c'],
-    include_dirs=['.', './sha3'])
+dcrypt_hash_module = Extension(
+    'dcrypt_hash',
+    sources=['dcrypt.cpp'],
+    include_dirs=['.'],
+    extra_compile_args=['-static'],
+    libraries=['crypto', 'boost_system'])
 
-setup (name = 'qubit_hash',
-       version = '1.0',
-       description = 'Bindings for proof of work used by QubitCoin',
-       ext_modules = [qubit_hash_module])
+setup(name='dcrypt_hash',
+      version='1.0',
+      description='Bindings for proof of work used by Slimcoin',
+      ext_modules=[dcrypt_hash_module])
