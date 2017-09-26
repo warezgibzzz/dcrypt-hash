@@ -4,7 +4,7 @@
 
 static PyObject *dcrypt_getpowhash(PyObject *self, PyObject *args)
 {
-    char *output;
+    char *output = (char *) PyMem_Malloc(32);
     PyObject *value;
 #if PY_MAJOR_VERSION >= 3
     PyBytesObject *input;
@@ -14,12 +14,11 @@ static PyObject *dcrypt_getpowhash(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "S", &input))
         return NULL;
     Py_INCREF(input);
-    output = PyMem_Malloc(32);
 
 #if PY_MAJOR_VERSION >= 3
-    dcrypt_hash((char *)PyBytes_AsString((PyObject*) input), output);
+    dcrypt_hash((char *)PyBytes_AsString((PyObject*) input), output, 32);
 #else
-    dcrypt_hash((char *)PyString_AsString((PyObject*) input), output);
+    dcrypt_hash((char *)PyString_AsString((PyObject*) input), output, 32);
 #endif
     Py_DECREF(input);
 #if PY_MAJOR_VERSION >= 3
@@ -27,7 +26,7 @@ static PyObject *dcrypt_getpowhash(PyObject *self, PyObject *args)
 #else
     value = Py_BuildValue("s#", output, 32);
 #endif
-    PyMem_Free(output);
+//    PyMem_Free(output);
     return value;
 }
 

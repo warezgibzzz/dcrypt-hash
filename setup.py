@@ -2,10 +2,8 @@ from distutils.core import setup, Extension
 
 dcrypt_hash_module = Extension(
     'dcrypt_hash',
-    sources=['dcrypt.cpp'],
-    include_dirs=['.'],
-    extra_compile_args=['-static'],
-    libraries=['crypto', 'boost_system'])
+    sources=['dcrypt.c', 'dcryptmodule.c'],
+    include_dirs=['.'])
 
 setup(name='dcrypt_hash',
       version='1.0',
